@@ -51,6 +51,43 @@ class ADT:
     def remove(self, value):
         pass
 
+    def remove_recursive(self,current_node,value):
+        node_to_delete = self.__find_node_of_value(value,current_node)
+        # Leaf
+        if node_to_delete.left == None and node_to_delete.right == None:
+            parent_node = self.__find_parent_node(value,self.root)
+            if parent_node.left.data == value:
+                parent_node.left = None
+            elif parent_node.right.data == value:
+                parent_node.right = None
+            return
+        # Move child to another parent
+        elif node_to_delete.left is not None and node_to_delete.right is not None:
+            pass
+
+    def __find_parent_node(self,value,current_node):
+        if current_node.left.data == value or current_node.right.data == value:
+            return current_node
+        elif current_node.data > value:
+            return self.__find_parent_node(value,current_node.left)
+        elif current_node.data < value:
+            return self.__find_parent_node(value,current_node.right)
+
+    def __find_node_of_value(self, value,current_node):
+        if current_node.data == value:
+            return current_node
+        elif current_node.left == None and current_node.right == None:
+            return False
+        elif current_node.data > value:
+            return self.__find_node_of_value(value,current_node.left)
+        elif current_node.data < value:
+            return self.__find_node_of_value(value,current_node.right)
+
+    def __find_rightmost(self,current_node):
+        if current_node.right == None:
+            return current_node
+        return self.__find_rightmost(current_node.right)
+
     def __len__(self):
         return self.__size
 
